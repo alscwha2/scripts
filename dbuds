@@ -1,0 +1,2 @@
+#!/bin/bash
+printf 'disconnect B4:CE:40:9C:71:66\nexit' | bluetoothctl > /dev/null
