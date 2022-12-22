@@ -7,6 +7,9 @@ from sys import exit
 from os import mkdir, environ
 import argparse
 
+# test script without making directories or files
+TEST = False
+
 
 def parse_args():
 	parser = argparse.ArgumentParser(
@@ -82,11 +85,15 @@ def create_readme(directory_path):
 title, description = get_title_and_description()
 title = format_title(title)
 full_path = f"{leetcode_home_directory_path}/{title}"
-print(title)
-print(full_path)
-# mkdir(full_path)
-# create_readme(full_path)
-# create_solution_file(full_path)
+
+if TEST:
+	print(title)
+	print(full_path)
+	exit(0)
+
+mkdir(full_path)
+create_readme(full_path)
+create_solution_file(full_path)
 
 
 """
