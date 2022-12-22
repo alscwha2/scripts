@@ -2,10 +2,14 @@
 
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from sys import exit
 from os import mkdir, environ
 import argparse
+from time import sleep
 
 # test script without making directories or files
 TEST = False
@@ -57,14 +61,37 @@ title_css_class = "mr-2"
 description_css_class = "_1l1MA"
 
 
-def get_title_and_description():
+def get_title_and_description_and_code():
+	def get_title(driver):
+		return driver.find_element_by_class_name(title_css_class)\
+						.text
+
+	def get_description(driver):
+		return driver.find_element_by_class_name(description_css_class)\
+						.get_attribute('innerHTML')
+
+	def get_code(driver):
+		language_picker_button = driver.find_element(By.ID, "headlessui-listbox-button-10")
+		language_picker_button.click()
+		python3_option = driver.find_element(By.ID, "headlessui-listbox-option-15")
+		python3_option.click()
+		code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
+		WebDriverWait(driver, 5)\
+			.until(EC.text_to_be_present_in_element(
+				(By.XPATH, code_xpath),
+				'class Solution:'))
+		code = driver.find_element(By.XPATH, code_xpath).text
+
+		return code
+
 	with Chrome(executable_path=chrome_driver_path, options=options) as driver:
 		driver.get(leetcode_problem_URL)
 		driver.implicitly_wait(20)
-		title = driver.find_element_by_class_name(title_css_class).text
-		description = driver.find_element_by_class_name(description_css_class)\
-							.get_attribute('innerHTML')
-		return title, description
+		title = get_title(driver)
+		description = get_description(driver)
+		code = get_code(driver)
+
+		return title, description, code
 
 
 def format_title(title: str):
@@ -72,9 +99,10 @@ def format_title(title: str):
 	return f"{int(number):04d}.{name}"
 
 
-def create_solution_file(directory_path):
+def create_solution_file(directory_path, code):
 	with open(f"{directory_path}/s.py", mode='w') as f:
-		print('from typing import List\n\n\n\n# print(Solution())', file=f)
+		print('from typing import List\n\n', file=f)
+		print(code, file=f)
 
 
 def create_readme(directory_path):
@@ -82,24 +110,22 @@ def create_readme(directory_path):
 		print(description, file=f)
 
 
-title, description = get_title_and_description()
+title, description, code = get_title_and_description_and_code()
 title = format_title(title)
 full_path = f"{leetcode_home_directory_path}/{title}"
 
 if TEST:
-	print(title)
-	print(full_path)
+	# print(title)
+	# print(full_path)
 	exit(0)
 
 mkdir(full_path)
 create_readme(full_path)
-create_solution_file(full_path)
+create_solution_file(full_path, code)
 
 
 """
 code snippets for later use:
 
-code = driver.find_element(By.XPATH, "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]").text
-button = driver.find_element(By.ID, "headlessui-listbox-button-10").text
 
 """
