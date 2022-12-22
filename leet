@@ -11,9 +11,6 @@ from os import mkdir, environ
 import argparse
 from time import sleep
 
-# test script without making directories or files
-TEST = False
-
 
 def parse_args():
 	parser = argparse.ArgumentParser(
@@ -46,6 +43,7 @@ def check_environment_and_options():
 		exit(1)
 
 
+# args and environment variables
 args = parse_args()
 check_environment_and_options()
 
@@ -59,7 +57,16 @@ leetcode_problem_URL = args.url
 leetcode_home_directory_path = args.destination if args.destination else environ['LEET_HOME']
 title_css_class = "mr-2"
 description_css_class = "_1l1MA"
+language_picker_button_id = "headlessui-listbox-button-10"
+python3_option_id = "headlessui-listbox-option-15"
+code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
 
+
+
+
+################################################################################
+############################## FUNCTION DEFINITIONS ############################
+################################################################################
 
 def get_title_and_description_and_code():
 	def get_title(driver):
@@ -71,11 +78,10 @@ def get_title_and_description_and_code():
 						.get_attribute('innerHTML')
 
 	def get_code(driver):
-		language_picker_button = driver.find_element(By.ID, "headlessui-listbox-button-10")
+		language_picker_button = driver.find_element(By.ID, language_picker_button_id)
 		language_picker_button.click()
-		python3_option = driver.find_element(By.ID, "headlessui-listbox-option-15")
+		python3_option = driver.find_element(By.ID, python3_option_id)
 		python3_option.click()
-		code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
 		WebDriverWait(driver, 5)\
 			.until(EC.text_to_be_present_in_element(
 				(By.XPATH, code_xpath),
@@ -110,22 +116,15 @@ def create_readme(directory_path):
 		print(description, file=f)
 
 
+################################################################################
+############################ APPLICATION LOGIC #################################
+################################################################################
+
+
 title, description, code = get_title_and_description_and_code()
 title = format_title(title)
 full_path = f"{leetcode_home_directory_path}/{title}"
 
-if TEST:
-	# print(title)
-	# print(full_path)
-	exit(0)
-
 mkdir(full_path)
 create_readme(full_path)
 create_solution_file(full_path, code)
-
-
-"""
-code snippets for later use:
-
-
-"""
