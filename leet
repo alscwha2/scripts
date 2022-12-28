@@ -57,8 +57,8 @@ leetcode_problem_URL = args.url
 leetcode_home_directory_path = args.destination if args.destination else environ['LEET_HOME']
 title_css_class = "mr-2"
 description_css_class = "_1l1MA"
-language_picker_button_id = "headlessui-listbox-button-10"
-python3_option_id = "headlessui-listbox-option-15"
+language_picker_button_xpath = "//*[text()='C++']"
+python3_option_xpath = "//*[text()='Python3']"
 code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
 
 
@@ -78,9 +78,9 @@ def get_title_and_description_and_code():
 						.get_attribute('innerHTML')
 
 	def get_code(driver):
-		language_picker_button = driver.find_element(By.ID, language_picker_button_id)
+		language_picker_button = driver.find_element(By.XPATH, language_picker_button_xpath)
 		language_picker_button.click()
-		python3_option = driver.find_element(By.ID, python3_option_id)
+		python3_option = driver.find_element(By.XPATH, python3_option_xpath)
 		python3_option.click()
 		WebDriverWait(driver, 5)\
 			.until(EC.text_to_be_present_in_element(
