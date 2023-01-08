@@ -1,0 +1,2 @@
+#!/bin/bash
+printf 'power on\nexit' | bluetoothctl > /dev/null
