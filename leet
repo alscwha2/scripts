@@ -29,6 +29,7 @@ def parse_args():
 	'''Optional destination directory to create files.
 	Allows script to be run without LEET_HOME environment variable set.
 	Overrides LEET_HOME as destination.''')
+    parser.add_argument('-v', '--verbose', help='Verbose output for debugging', action='store_true')
 	return parser.parse_args()
 
 
