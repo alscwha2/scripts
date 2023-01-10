@@ -3,12 +3,16 @@ Scripts that I write for command line use
 
 ## Snake
 Terminal based implementation of classic snake game.
+![screenshot of terminal snake]()
 
 ## Leet
 Scrape Leetcode website to download a specific problem.
 Create new directory named as the title of the problem.
 Create README.md file and add HTML description to readme.
 Create s.py (stands for Solution.py) file to begin solving.
+
+## Bluetoothon / Bluetoothoff
+Easily toggle bluetooth on/off without having to navigate through the bluetooth interface.
 
 ## Buds / DBuds
 Shortcuts to easily connect my Galaxy Buds without having to navigate through the bluetooth interface.
