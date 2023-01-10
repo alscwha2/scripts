@@ -11,6 +11,7 @@ Scrape Leetcode website to download a specific problem.
 Create new directory named as the title of the problem.
 Create README.md file and add HTML description to readme.
 Create s.py (stands for Solution.py) file to begin solving.
+<img src="https://raw.githubusercontent.com/alscwha2/images/main/leet_screenshot.png" alt="snake_screenshot" height="50%" width = "50%"/>
 
 ## Bluetoothon / Bluetoothoff
 Easily toggle bluetooth on/off without having to navigate through the bluetooth interface.
