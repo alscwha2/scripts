@@ -7,7 +7,6 @@ todo: In code, remove all newlines in the function definition
 
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,7 +14,6 @@ from selenium.webdriver.chrome.service import Service
 from sys import exit
 from os import mkdir, environ
 import argparse
-from time import sleep
 
 
 def parse_args():
@@ -25,25 +23,23 @@ def parse_args():
 		epilog='Open an issue at https://github.com/alscwha2/scripts/issues')
 
 	parser.add_argument('url', help='URL to leetcode problem')
-	parser.add_argument('-d', '--driver', help= '''
-	Optional path to chromedriver.
+	parser.add_argument('-d', '--driver', help=''' Optional path to chromedriver.
 	Allows script to be run without SELENIUM_CHROME_DRIVER_PATH environment variable set.
 	Overrides SELENIUM_CHROME_DRIVER_PATH environment variable.
 	''')
-	parser.add_argument('--destination', help=
-	'''Optional destination directory to create files.
+	parser.add_argument('--destination', help='''Optional destination directory to create files.
 	Allows script to be run without LEET_HOME environment variable set.
 	Overrides LEET_HOME as destination.''')
-    parser.add_argument('-v', '--verbose', help='Verbose output for debugging', action='store_true')
+	parser.add_argument('-v', '--verbose', help='Verbose output for debugging', action='store_true')
 	return parser.parse_args()
 
 
 def check_environment_and_options():
 	has_errors = False
-	if 'LEET_HOME' not in environ and args.destination == None:
+	if 'LEET_HOME' not in environ and args.destination is None:
 		print("Please save a Leetcode home directory in the LEET_HOME environment variable, or specify a destination in --destination option.")
 		has_errors = True
-	if 'SELENIUM_CHROME_DRIVER_PATH' not in environ and args.driver == None:
+	if 'SELENIUM_CHROME_DRIVER_PATH' not in environ and args.driver is None:
 		print("Please specify the path to the selenium chromedriver in the SELENIUM_HOME_DRIVER environment variable or include in -d --driver option")
 		has_errors = True
 	if has_errors:
@@ -59,20 +55,19 @@ options = ChromeOptions()
 options.headless = True
 chrome_driver_path = args.driver if args.driver else environ['SELENIUM_CHROME_DRIVER_PATH']
 if args.verbose:
-    print(f'Chromedriver path :{chrome_driver_path}')
+	print(f'Chromedriver path :{chrome_driver_path}')
 
 # Leetcode problem variables
 leetcode_problem_URL = args.url
 leetcode_home_directory_path = args.destination if args.destination else environ['LEET_HOME']
 if args.verbose:
-    print(f'Destination directory: {leetcode_home_directory_path}')
+	print(f'Destination directory: {leetcode_home_directory_path}')
 
 title_css_class = "mr-2"
 description_css_class = "_1l1MA"
 language_picker_button_xpath = "//*[text()='C++']"
 python3_option_xpath = "//*[text()='Python3']"
 code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
-
 
 
 ################################################################################
@@ -101,15 +96,15 @@ def get_title_and_description_and_code():
 
 		return code
 
-    if args.verbose:
-        print('starting selenium chromedriver...')
+	if args.verbose:
+		print('starting selenium chromedriver...')
 	with Chrome(service=Service(chrome_driver_path), options=options) as driver:
-        if args.verbose:
-            print('chromedriver started successfully')
-            print('accessing leetcode problem...')
+		if args.verbose:
+			print('chromedriver started successfully')
+			print('accessing leetcode problem...')
 		driver.get(leetcode_problem_URL)
-        if args.verbose:
-            print('extracting title/description/code...')
+		if args.verbose:
+			print('extracting title/description/code...')
 		driver.implicitly_wait(20)
 		title = get_title(driver)
 		description = get_description(driver)
@@ -127,15 +122,15 @@ def create_solution_file(directory_path, code):
 	with open(f"{directory_path}/s.py", mode='w') as f:
 		print('from typing import List\n\n', file=f)
 		print(code, file=f)
-    if args.verbose:
-        print(f'created {directory_path}/s.py')
+	if args.verbose:
+		print(f'created {directory_path}/s.py')
 
 
 def create_readme(directory_path):
 	with open(f"{directory_path}/README.md", mode='w') as f:
 		print(description, file=f)
-    if args.verbose:
-        print(f'created {directory_path}/README.md')
+	if args.verbose:
+		print(f'created {directory_path}/README.md')
 
 
 ################################################################################
@@ -148,9 +143,9 @@ title = format_title(title)
 full_path = f"{leetcode_home_directory_path}/{title}"
 
 if args.verbose:
-    print(f'creating directory {full_path}...')
+	print(f'creating directory {full_path}...')
 mkdir(full_path)
 create_readme(full_path)
 create_solution_file(full_path, code)
 if args.verbose:
-    print("done")
+	print("done")
