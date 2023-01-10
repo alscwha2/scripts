@@ -3,7 +3,8 @@ Scripts that I write for command line use
 
 ## Snake
 Terminal based implementation of classic snake game.
-![screenshot of terminal snake]()
+
+<img src="https://user-images.githubusercontent.com/21322425/211613268-74df344d-a0df-4c0f-be0a-5cdb2ff0890e.png" alt="snake_screenshot" height="50%" width = "50%"/>
 
 ## Leet
 Scrape Leetcode website to download a specific problem.
