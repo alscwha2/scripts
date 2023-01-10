@@ -25,6 +25,11 @@ def parse_args():
 		epilog='Open an issue at https://github.com/alscwha2/scripts/issues')
 
 	parser.add_argument('url', help='URL to leetcode problem')
+	parser.add_argument('-d', '--driver', help= '''
+	Optional path to chromedriver.
+	Allows script to be run without SELENIUM_CHROME_DRIVER_PATH environment variable set.
+	Overrides SELENIUM_CHROME_DRIVER_PATH environment variable.
+	''')
 	parser.add_argument('--destination', help=
 	'''Optional destination directory to create files.
 	Allows script to be run without LEET_HOME environment variable set.
@@ -37,6 +42,9 @@ def check_environment_and_options():
 	has_errors = False
 	if 'LEET_HOME' not in environ and args.destination == None:
 		print("Please save a Leetcode home directory in the LEET_HOME environment variable, or specify a destination in --destination option.")
+		has_errors = True
+	if 'SELENIUM_CHROME_DRIVER_PATH' not in environ and args.driver == None:
+		print("Please specify the path to the selenium chromedriver in the SELENIUM_HOME_DRIVER environment variable or include in -d --driver option")
 		has_errors = True
 	if has_errors:
 		exit(1)
