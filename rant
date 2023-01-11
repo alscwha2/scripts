@@ -8,7 +8,7 @@
 
 while true; do
 	read -e line
-	if [ "$line" == "exit" ]; then
+	if [ "$line" == "exit" ] || [ "$line" == "q" ]; then
 		exit 0
 	fi
 done
