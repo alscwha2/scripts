@@ -5,6 +5,8 @@
 #   	Maybe even save each rant into its own file? I think that that seems like
 # 			a better optionj
 #   rant -l allows to scroll through list of previous rants.
+#
+#   Allow enter key to be pressed
 
 while true; do
 	read -e line
