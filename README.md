@@ -21,3 +21,6 @@ Shortcuts to easily connect my Galaxy Buds without having to navigate through th
 
 ## Rant
 Small Bash script, let me write whatever I want in the terminal just to get my ideas flowing, without saving them.
+
+## nvim_alternative
+An executable script to run the neovim snap. This was needed in order to use neovim as an /etc/alternative for editor, because snaps do not word as alternatives.
