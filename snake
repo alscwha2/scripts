@@ -1,6 +1,24 @@
 #!/usr/bin/env python3
 
 """
+Welcome to command line snake! 
+
+How to play:
+    Steer with WASD.
+    A new game will start automatically if you crash.
+    Press q at any time to exit.
+
+Modes:
+    Regular mode:
+        Steer with WASD, each tick the snake will advance one tile.
+
+    Manual mode:
+        Steer with WASD. Each time a key is pressed, the snake will advance one tile.
+        Any key can be pressed to advance the snake.
+
+    Solve:
+        Sit back and relax while the game plays itself in front of your eyes!
+
 todo: find a way to make the output work with threads
 todo: track high score
 todo: make compatible with array keys
