@@ -48,6 +48,7 @@ BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT = '\u255A', '\u255D', '\u2554', '
 # game parameters
 BOARD_SIZE = 18
 INITIAL_SNAKE_LENGTH = 5
+TICK = 0.2
 
 
 ################################################################################
@@ -331,7 +332,7 @@ def update_game():
 def update_game_loop():
     while not crashed:
         print_game()
-        sleep(0.2)
+        sleep(TICK)
         update_game()
 
 
