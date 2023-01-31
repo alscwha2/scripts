@@ -283,7 +283,7 @@ def execute(command):
     if command in {'w', 'a', 's', 'd'}:
         change_direction(command)
     if command == 'q':
-        raise ValueError
+        sys.exit(0)
 
 
 def watch_and_execute_commands():
