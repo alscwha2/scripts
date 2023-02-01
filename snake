@@ -335,6 +335,13 @@ def update_game_loop():
         sleep(TICK)
         update_game()
 
+################################################################################
+############################# PLAY GAME ########################################
+################################################################################
+
+def regular_mode():
+    Thread(target=update_game_loop, daemon=True).start()
+    Thread(target=watch_and_execute_commands).start()
 
 def manual_mode():
     while True:
@@ -387,7 +394,5 @@ def solve():
 ################################################################################
 
 initialize_game()
-# Thread(target=update_game_loop, daemon=True).start()
-# Thread(target=watch_and_execute_commands).start()
 manual_mode()
 # solve()
