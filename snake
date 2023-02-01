@@ -414,19 +414,24 @@ def solve():
 ################################################################################
 
 def parse_args():
+    default_game_mode = 'manual'
+
     parser = argparse.ArgumentParser(
             prog="snake",
             description="Play snake from the command line",
             epilog='open an issue at https://github.com/alscwha2/scripts/issues')
     parser.add_argument('--mode', 
                         choices=['regular', 'manual', 'solver'], 
-                        default='manual')
+                        default=default_game_mode,
+                        help=f'play game in specified game mode\ndefaults to {default_game_mode}')
     parser.add_argument('-r',
-                        action='store_const', const='regular', dest='mode', metavar='regular')
+                        action='store_const', const='regular', dest='mode', help='play game in regular mode')
+    parser.add_argument('-m',
+                        action='store_const', const='manual', dest='mode', help='play game in manual mode')
     parser.add_argument('-s',
-                        action='store_const', const='solver', dest='mode', metavar='solver')
+                        action='store_const', const='solver', dest='mode', help='watch as the game plays itself')
     parser.add_argument('-a', '--auto',
-                        action='store_true')
+                        action='store_true', help='automatically start a new game on crash')
     return parser.parse_args()
 
 def process_args(args):
