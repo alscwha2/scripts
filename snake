@@ -346,7 +346,16 @@ def regular_mode():
 def manual_mode():
     while True:
         if crashed:
-            initialize_game()
+            print("Game Over!\nPlay Again? (y/n)")
+
+            while True:
+                command = get_char()
+                if command.startswith("y"):
+                    initialize_game()
+                    break
+                elif command.startswith("n"):
+                    sys.exit(0)
+
         print_game()
         command = get_char()
         execute(command)
