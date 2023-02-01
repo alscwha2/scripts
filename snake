@@ -399,25 +399,35 @@ def manual_mode():
 
 
 def get_next_solution_step():
-    i, j = head
+    row, column = head
+
+    top_row = 1
+    leftmost_column = 1
+    second_row = 2
+    bottom_row = BOARD_SIZE - 2
+    rightmost_column = BOARD_SIZE - 2
+
     if head_direction == RIGHT:
-        if i == 2:
-            return DOWN
-        elif i == BOARD_SIZE - 2:
+        return   DOWN if row == second_row \
+            else UP if row == bottom_row \
+            else UP if column == rightmost_column \
+            else RIGHT
+
+    elif head_direction == DOWN:
+        return   RIGHT if row == bottom_row \
+            else DOWN
+
+    elif head_direction == LEFT:
+        return   DOWN if column == leftmost_column \
+            else LEFT
+
+    elif head_direction == UP:
+        if (row, column) == (second_row, rightmost_column):
             return UP
         else:
-            return RIGHT if j != BOARD_SIZE-2 else UP
-    elif head_direction == DOWN:
-        return RIGHT if i == BOARD_SIZE - 2 else DOWN
-    elif head_direction == LEFT:
-        return DOWN if j == 1 else LEFT
-    elif head_direction == UP:
-        if i == 2:
-            if j == BOARD_SIZE-2:
-                return UP
-            else:
-                return RIGHT
-        return LEFT if i == 1 else UP
+            return   LEFT if row == top_row \
+                else RIGHT if row == second_row \
+                else UP
 
 
 def solve():
