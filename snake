@@ -51,7 +51,7 @@ BOARD_SIZE = 18
 INITIAL_SNAKE_LENGTH = 5
 SOLVER_TICK_SPEED = 0.05
 TICK = 0.2
-AUTO_MODE = False
+AUTO_NEW_GAME = False
 GAME_MODE = None
 
 
@@ -362,7 +362,7 @@ def ask_play_again():
 def manual_mode():
     while True:
         if crashed:
-            if AUTO_MODE:
+            if AUTO_NEW_GAME:
                 initialize_game()
             else:
                 ask_play_again()
@@ -430,10 +430,10 @@ def parse_args():
     return parser.parse_args()
 
 def process_args(args):
-    global AUTO_MODE, GAME_MODE
+    global AUTO_NEW_GAME, GAME_MODE
     args = parse_args()
     if args.auto:
-        AUTO_MODE = True
+        AUTO_NEW_GAME = True
     if args.mode == 'manual':
         GAME_MODE = manual_mode
     elif args.mode == 'solver':
