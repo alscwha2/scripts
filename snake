@@ -362,10 +362,6 @@ def update_game_loop():
 ############################# PLAY GAME ########################################
 ################################################################################
 
-def regular_mode():
-    Thread(target=update_game_loop, daemon=True).start()
-    Thread(target=watch_and_execute_commands).start()
-
 def ask_play_again():
     print("Game Over!\nPlay Again? (y/n)")
 
@@ -377,6 +373,9 @@ def ask_play_again():
         elif command.startswith("n"):
             sys.exit(0)
 
+def regular_mode():
+    Thread(target=update_game_loop, daemon=True).start()
+    Thread(target=watch_and_execute_commands).start()
 
 def manual_mode():
     while True:
