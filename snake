@@ -158,7 +158,7 @@ def initialize_snake():
 ######################################## HEAD ##################################
 
 
-def bend_neck(direction):
+def get_next_head_piece(direction):
     if (head_direction, direction) in {(UP, RIGHT), (LEFT, DOWN)}:
         return TOP_LEFT
     elif (head_direction, direction) in {(DOWN, RIGHT), (LEFT, UP)}:
@@ -187,7 +187,7 @@ def move_head(direction):
     global head, head_direction
 
     # if you're changing direction, bend the snake's neck in that direction
-    write_board_char(head, bend_neck(direction))
+    write_board_char(head, get_next_head_piece(direction))
 
     head_direction = direction
     head = move(head, direction)
