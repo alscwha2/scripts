@@ -50,6 +50,7 @@ BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT = '\u255A', '\u255D', '\u2554', '
 BOARD_SIZE = 18
 INITIAL_SNAKE_LENGTH = 5
 TICK = 0.2
+AUTO_MODE = False
 
 
 ################################################################################
@@ -344,18 +345,25 @@ def regular_mode():
     Thread(target=update_game_loop, daemon=True).start()
     Thread(target=watch_and_execute_commands).start()
 
+def ask_play_again():
+    print("Game Over!\nPlay Again? (y/n)")
+
+    while True:
+        command = get_char()
+        if command.startswith("y"):
+            initialize_game()
+            return
+        elif command.startswith("n"):
+            sys.exit(0)
+
+
 def manual_mode():
     while True:
         if crashed:
-            print("Game Over!\nPlay Again? (y/n)")
-
-            while True:
-                command = get_char()
-                if command.startswith("y"):
-                    initialize_game()
-                    break
-                elif command.startswith("n"):
-                    sys.exit(0)
+            if AUTO_MODE:
+                initialize_game()
+            else:
+                ask_play_again()
 
         print_game()
         command = get_char()
@@ -415,10 +423,14 @@ def parse_args():
                         action='store_const', const='regular', dest='mode', metavar='regular')
     parser.add_argument('-s',
                         action='store_const', const='solver', dest='mode', metavar='solver')
+    parser.add_argument('-a', '--auto',
+                        action='store_true')
     return parser.parse_args()
 
 initialize_game()
 args = parse_args()
+if args.auto:
+    AUTO_MODE = True
 if args.mode == 'manual':
     manual_mode()
 elif args.mode == 'solver':
