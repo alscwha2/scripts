@@ -52,6 +52,7 @@ INITIAL_SNAKE_LENGTH = 5
 SOLVER_TICK_SPEED = 0.05
 TICK = 0.2
 AUTO_MODE = False
+GAME_MODE = None
 
 
 ################################################################################
@@ -428,13 +429,20 @@ def parse_args():
                         action='store_true')
     return parser.parse_args()
 
+def process_args(args):
+    global AUTO_MODE, GAME_MODE
+    args = parse_args()
+    if args.auto:
+        AUTO_MODE = True
+    if args.mode == 'manual':
+        GAME_MODE = manual_mode
+    elif args.mode == 'solver':
+        GAME_MODE = solve
+    elif args.mode == 'regular':
+        GAME_MODE = regular_mode
+
 initialize_game()
 args = parse_args()
-if args.auto:
-    AUTO_MODE = True
-if args.mode == 'manual':
-    manual_mode()
-elif args.mode == 'solver':
-    solve()
-elif args.mode == 'regular':
-    regular_mode()
+process_args(args)
+GAME_MODE()
+
