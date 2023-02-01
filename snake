@@ -71,8 +71,7 @@ BOARD_SIZE = 18
 INITIAL_SNAKE_LENGTH = 5
 SOLVER_TICK_SPEED = 0.05
 TICK = 0.2
-AUTO_NEW_GAME = False
-GAME_MODE = None
+AUTO_NEW_GAME = False # may be changed by supplying -a --auto argument
 
 
 ################################################################################
@@ -454,20 +453,17 @@ def parse_args():
                         action='store_true', help='automatically start a new game on crash')
     return parser.parse_args()
 
-def process_args(args):
-    global AUTO_NEW_GAME, GAME_MODE
+def main():
     args = parse_args()
-    if args.auto:
-        AUTO_NEW_GAME = True
+    global AUTO_NEW_GAME
+    AUTO_NEW_GAME = args.auto
+
+    initialize_game()
     if args.mode == 'manual':
-        GAME_MODE = manual_mode
+        manual_mode()
     elif args.mode == 'solver':
-        GAME_MODE = solve
+        solve()
     elif args.mode == 'regular':
-        GAME_MODE = regular_mode
+        regular_mode()
 
-initialize_game()
-args = parse_args()
-process_args(args)
-GAME_MODE()
-
+main()
