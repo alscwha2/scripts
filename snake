@@ -100,9 +100,8 @@ snake_length = INITIAL_SNAKE_LENGTH
 
 
 def initialize_empty_board():
-    global board, empty_tiles
+    global board
     board = [[' ' for _ in range(BOARD_SIZE)] for __ in range(BOARD_SIZE)]
-    empty_tiles = [(i, j) for i in range(1, BOARD_SIZE-1) for j in range(1, BOARD_SIZE-1)]
 
     # add borders
     for i in range(1, BOARD_SIZE - 1):
@@ -261,6 +260,9 @@ def initialize_variables():
     next_direction = RIGHT
     head_direction = RIGHT
     tail_direction = RIGHT
+
+    global empty_tiles
+    empty_tiles = [(i, j) for i in range(1, BOARD_SIZE-1) for j in range(1, BOARD_SIZE-1)]
 
 
 def initialize_game():
