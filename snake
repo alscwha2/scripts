@@ -369,10 +369,9 @@ def ask_play_again():
 
     while True:
         command = get_char()
-        if command.startswith("y"):
-            initialize_game()
+        if command == "y":
             return
-        elif command.startswith("n"):
+        elif command == "n":
             sys.exit(0)
 
 def regular_mode():
@@ -386,6 +385,7 @@ def manual_mode():
                 initialize_game()
             else:
                 ask_play_again()
+                initialize_game()
 
         print_game()
         command = get_char()
