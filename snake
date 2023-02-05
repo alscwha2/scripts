@@ -422,12 +422,10 @@ def get_next_solution_step():
             else LEFT
 
     elif head_direction == UP:
-        if (row, column) == (second_row, rightmost_column):
-            return UP
-        else:
-            return   LEFT if row == top_row \
-                else RIGHT if row == second_row \
-                else UP
+        return   LEFT if row == top_row \
+            else UP if column == rightmost_column \
+            else RIGHT if row == second_row \
+            else UP
 
 
 def solve():
