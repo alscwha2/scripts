@@ -4,7 +4,7 @@ Scripts that I write for command line use
 ## Snake
 Terminal based implementation of classic snake game.
 
-<img src="https://raw.githubusercontent.com/alscwha2/images/main/snake_screenshot.png" alt="snake_screenshot" height="50%" width = "50%"/>
+<img src="https://raw.githubusercontent.com/alscwha2/images/main/manual.gif" alt="snake_gif" height="50%" width = "50%"/>
 
 ## Leet
 Scrape Leetcode website to download a specific problem.
