@@ -65,11 +65,11 @@ from time import sleep
 ################################################################################
 
 # game parameters
-BOARD_SIZE = 18
-INITIAL_SNAKE_LENGTH = 5
-SOLVER_TICK_SPEED = 0.05
-TICK = 0.2
-AUTO_NEW_GAME = False # may be set by supplying -a --auto argument
+BOARD_SIZE = 18  # may be set by supplying -b --board-size argument
+INITIAL_SNAKE_LENGTH = 2
+SOLVER_TICK = 0.05  # may be set by supplying -t --tick argument
+TICK = 0.2  # may be set by supplying -t --tick argument
+AUTO_NEW_GAME = False  # may be set by supplying -a --auto argument
 
 # directions
 UP, RIGHT, DOWN, LEFT = (-1, 0), (0, 1), (1, 0), (0, -1)
@@ -443,7 +443,7 @@ def solve():
     global next_direction
     while not crashed:
         print_game()
-        sleep(SOLVER_TICK_SPEED)
+        sleep(SOLVER_TICK)
         next_direction = get_next_solution_step()
         update_game()
 
@@ -471,19 +471,28 @@ def parse_args():
                         action='store_const', const='solver', dest='mode', help='watch as the game plays itself')
     parser.add_argument('-a', '--auto',
                         action='store_true', help='automatically start a new game on crash')
+    parser.add_argument('-t', '--tick',
+                        type=float, help='tick duration, in seconds', metavar="SECONDS")
+    parser.add_argument('-b', '--board-size',
+                        type=int, help='board size', metavar="TILES", default=16)
     return parser.parse_args()
 
 def main():
     args = parse_args()
-    global AUTO_NEW_GAME
+    global AUTO_NEW_GAME, TICK, SOLVER_TICK, BOARD_SIZE
     AUTO_NEW_GAME = args.auto
 
+    BOARD_SIZE = args.board_size + 2
     initialize_game()
     if args.mode == 'manual':
         manual_mode()
     elif args.mode == 'solver':
+        if args.tick is not None:
+            SOLVER_TICK = args.tick
         solve()
     elif args.mode == 'regular':
+        if args.tick is not None:
+            TICK = args.tick
         regular_mode()
 
 main()
