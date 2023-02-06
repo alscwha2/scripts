@@ -356,7 +356,7 @@ def update_game():
         snake_length += 1
         try:
             place_food()
-        except IndexError:
+        except IndexError:  # if there are no more empty tiles to place food, you win
             global crashed
             crashed = True
             print_game()
