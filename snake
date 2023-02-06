@@ -364,11 +364,10 @@ def update_game():
 
 
 def update_game_loop():
-    print_game()
     while not crashed:
+        print_game()
         sleep(TICK)
         update_game()
-        print_game()
 
 ################################################################################
 ############################# PLAY GAME ########################################
