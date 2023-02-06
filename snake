@@ -345,6 +345,10 @@ def watch_and_execute_commands():
 
 
 def update_game():
+    # update head before tail. Head will collide with tail when trying to occupy
+    #   the tile that the end of the tail is currently occupying.
+    # This behavior is consistent with the Google Snake implementation.
+    # To change this behavior, switch the order of the next two function calls.
     move_head(next_direction)
     update_tail()
     if ate:
