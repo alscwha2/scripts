@@ -42,9 +42,14 @@ TODO:
     [] track high scores
     [] allow arrow keys to be used instead of WASD
     [] ensure that the game works with odd sized boards
+    [] display instructions during gameplay
+    [] refactor collision checks
+    [] re-implement game win
+    [] early exit from solver
 
 Notes:
     * Collision and eating checks are done in the move_head function
+    * Trying to move the head into the position of the tail will cause a collision.
 """
 import os
 import termios
