@@ -88,6 +88,7 @@ empty_tiles = []
 
 head = (0, 0)
 tail = (0, 0)
+snake_length = INITIAL_SNAKE_LENGTH
 
 next_direction = RIGHT
 head_direction = RIGHT
@@ -95,7 +96,6 @@ tail_direction = RIGHT
 
 crashed = False
 ate = False
-snake_length = INITIAL_SNAKE_LENGTH
 
 ################################################################################
 ########################### FUNCTION DEFINITIONS ###############################
