@@ -391,11 +391,9 @@ def regular_mode():
 def manual_mode():
     while True:
         if crashed:
-            if AUTO_NEW_GAME:
-                initialize_game()
-            else:
+            if not AUTO_NEW_GAME:
                 ask_play_again()
-                initialize_game()
+            initialize_game()
 
         print_game()
         command = get_char()
