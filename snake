@@ -357,7 +357,7 @@ def watch_and_execute_commands():
 ############################## RUN GAME ########################################
 
 
-def place_food_and_check_win():
+def check_if_won_else_place_food():
     if ate:
         global snake_length
         snake_length += 1
@@ -377,7 +377,7 @@ def update_game():
     # To change this behavior, switch the order of the next two function calls.
     move_head(next_direction)
     update_tail()
-    place_food_and_check_win()
+    check_if_won_else_place_food()
 
 
 def update_game_loop():
