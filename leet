@@ -54,22 +54,23 @@ check_environment_and_options()
 
 # Selenium driver variables
 options = ChromeOptions()
-options.headless = True
+options.headless = False
 chrome_driver_path = args.driver if args.driver else environ['SELENIUM_CHROME_DRIVER_PATH']
 if args.verbose:
-	print(f'Chromedriver path :{chrome_driver_path}')
+    print(f'Chromedriver path :{chrome_driver_path}')
 
 # Leetcode problem variables
 leetcode_problem_URL = args.url
 leetcode_home_directory_path = args.destination if args.destination else environ['LEET_HOME']
 if args.verbose:
-	print(f'Destination directory: {leetcode_home_directory_path}')
+    print(f'Destination directory: {leetcode_home_directory_path}')
 
-title_css_class = "mr-2"
-description_css_class = "_1l1MA"
+title_xpath = '/html/body/div[1]/div[2]/div/div/div[4]/div/div/div[4]/div/div[1]/div[1]/div/div/a'
+description_xpath = '/html/body/div[1]/div[2]/div/div/div[4]/div/div/div[4]/div/div[1]/div[3]'
 language_picker_button_xpath = "//*[text()='C++']"
 python3_option_xpath = "//*[text()='Python3']"
-code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
+# code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
+code_xpath = '/html/body/div[1]/div[2]/div/div/div[4]/div/div/div[8]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[1]/div[5]'
 
 
 ################################################################################
@@ -77,62 +78,63 @@ code_xpath = "//div[@id='editor']/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]"
 ################################################################################
 
 def get_title_and_description_and_code():
-	def get_title(driver):
-		return driver.find_element(By.CLASS_NAME, title_css_class)\
-						.text
+    def get_title(driver):
+        return driver.find_element(By.XPATH, title_xpath)\
+                        .text
 
-	def get_description(driver):
-		return driver.find_element(By.CLASS_NAME, description_css_class)\
-						.get_attribute('innerHTML')
+    def get_description(driver):
+        return driver.find_element(By.XPATH, description_xpath)\
+                        .get_attribute('innerHTML')
 
-	def get_code(driver):
-		language_picker_button = driver.find_element(By.XPATH, language_picker_button_xpath)
-		language_picker_button.click()
-		python3_option = driver.find_element(By.XPATH, python3_option_xpath)
-		python3_option.click()
-		WebDriverWait(driver, 5)\
-			.until(EC.text_to_be_present_in_element(
-				(By.XPATH, code_xpath),
-				'class Solution:'))
-		code = driver.find_element(By.XPATH, code_xpath).text
+    def get_code(driver):
+        language_picker_button = driver.find_element(By.XPATH, language_picker_button_xpath)
+        language_picker_button.click()
+        python3_option = driver.find_element(By.XPATH, python3_option_xpath)
+        python3_option.click()
+        WebDriverWait(driver, 5)\
+            .until(EC.text_to_be_present_in_element(
+                (By.XPATH, code_xpath),
+                'class Solution:'))
+        code = driver.find_element(By.XPATH, code_xpath).text
 
-		return code
+        return code
 
-	if args.verbose:
-		print('starting selenium chromedriver...')
-	with Chrome(service=Service(chrome_driver_path), options=options) as driver:
-		if args.verbose:
-			print('chromedriver started successfully')
-			print('accessing leetcode problem...')
-		driver.get(leetcode_problem_URL)
-		if args.verbose:
-			print('extracting title/description/code...')
-		driver.implicitly_wait(20)
-		title = get_title(driver)
-		description = get_description(driver)
-		code = get_code(driver)
+    if args.verbose:
+        print('starting selenium chromedriver...')
+    with Chrome(service=Service(chrome_driver_path), options=options) as driver:
+        if args.verbose:
+            print('chromedriver started successfully')
+            print('accessing leetcode problem...')
+        driver.get(leetcode_problem_URL)
+        if args.verbose:
+            print('extracting title/description/code...')
+        driver.implicitly_wait(10)
+        title = get_title(driver)
+        description = get_description(driver)
+        code = get_code(driver)
 
-		return title, description, code
+        return title, description, code
 
 
 def format_title(title: str):
-	number, name = title.split(".")
-	return f"{int(number):04d}.{name}"
+    number, name = title.split(".")
+    return f"{int(number):04d}.{name}"
 
 
 def create_solution_file(directory_path, code):
-	with open(f"{directory_path}/s.py", mode='w') as f:
-		print('from typing import List\n\n', file=f)
-		print(code, file=f)
-	if args.verbose:
-		print(f'created {directory_path}/s.py')
+    with open(f"{directory_path}/s.py", mode='w') as f:
+        if 'List' in code:
+            print('from typing import List\n\n', file=f)
+        print(code + 'pass', file=f)
+    if args.verbose:
+        print(f'created {directory_path}/s.py')
 
 
 def create_readme(directory_path):
-	with open(f"{directory_path}/README.md", mode='w') as f:
-		print(description, file=f)
-	if args.verbose:
-		print(f'created {directory_path}/README.md')
+    with open(f"{directory_path}/README.html", mode='w') as f:
+        print(description, file=f)
+    if args.verbose:
+        print(f'created {directory_path}/README.md')
 
 
 ################################################################################
