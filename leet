@@ -147,9 +147,10 @@ title = format_title(title)
 full_path = f"{leetcode_home_directory_path}/{title}"
 
 if args.verbose:
-	print(f'creating directory {full_path}...')
+    print(f'creating directory {full_path}...')
 mkdir(full_path)
 create_readme(full_path)
 create_solution_file(full_path, code)
 if args.verbose:
-	print("done")
+    print("done")
+print(title)
